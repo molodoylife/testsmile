@@ -13,23 +13,53 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
+ * activity for creating new twit
+ * <p>
  * Created by Oleksandr Molodykh on 23.03.2017.
  */
-
 public class NewTwit extends AppCompatActivity implements View.OnClickListener {
-    TextView tvCountSymbols;
-    EditText etNewTwit;
-    ImageButton ibClose;
-    Button twit;
+    private TextView tvCountSymbols;
+    private EditText etNewTwit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_twit);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        twit = (Button) findViewById(R.id.buttonTwit);
+        initComponents();
+    }
+
+    /**
+     * setting on click actions
+     * add twit or exit
+     *
+     * @param v clicked view
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ibClose:
+                NewTwit.this.onBackPressed();
+                break;
+            case R.id.buttonTwit:
+                String textTwit = etNewTwit.getText().toString();
+                if (textTwit.length() == 0)
+                    return;
+                Intent intent = new Intent();
+                intent.putExtra("twit", textTwit);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+        }
+    }
+
+    /**
+     * initializing view components
+     */
+    private void initComponents() {
+        Button twit = (Button) findViewById(R.id.buttonTwit);
         twit.setOnClickListener(this);
-        ibClose = (ImageButton) findViewById(R.id.ibClose);
+        ImageButton ibClose = (ImageButton) findViewById(R.id.ibClose);
         ibClose.setOnClickListener(this);
         tvCountSymbols = (TextView) findViewById(R.id.countSymbols);
         tvCountSymbols.setText("140");
@@ -51,23 +81,5 @@ public class NewTwit extends AppCompatActivity implements View.OnClickListener {
                 tvCountSymbols.setText(140 - filled + "");
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ibClose:
-                NewTwit.this.onBackPressed();
-                break;
-            case R.id.buttonTwit:
-                String textTwit = etNewTwit.getText().toString();
-                if (textTwit.length() == 0)
-                    return;
-                Intent intent = new Intent();
-                intent.putExtra("twit", textTwit);
-                setResult(RESULT_OK, intent);
-                finish();
-                break;
-        }
     }
 }

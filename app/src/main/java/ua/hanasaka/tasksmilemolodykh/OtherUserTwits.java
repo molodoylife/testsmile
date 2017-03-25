@@ -5,32 +5,28 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import ua.hanasaka.tasksmilemolodykh.adapter.CustomAdapter;
 import ua.hanasaka.tasksmilemolodykh.database.DB;
 
 /**
+ * activity for visualizing other user's twits
+ * <p>
  * Created by Oleksandr Molodykh on 25.03.2017.
  */
-
 public class OtherUserTwits extends AppCompatActivity {
     private Cursor cursor;
     private RecyclerView recyclerView;
-    private CustomAdapter mAdapter;
-    private Handler h;
-    ProgressDialog pd;
+    private static Handler h;
+    private ProgressDialog pd;
     private static final int STATUS_FINISHED = 2;
     private static final int STATUS_STARTING = 1;
-    private String TAG = "myLogs";
-    private  long user_id;
+    private long user_id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,12 +41,20 @@ public class OtherUserTwits extends AppCompatActivity {
         }
     }
 
+    /**
+     * initializing cursor
+     */
     private void initCursor() {
         DB db = DB.getInstance(this);
         db.open();
         cursor = db.getTwits(user_id);
     }
 
+    /**
+     * checking if user is in db
+     *
+     * @return true if user id in db
+     */
     private boolean checkIfNameIsInDB() {
         Intent intent = getIntent();
         if (intent.hasExtra("nick")) {
@@ -58,21 +62,23 @@ public class OtherUserTwits extends AppCompatActivity {
             DB db = DB.getInstance(this);
             db.open();
             user_id = db.ifUserIsInDB(nick);
-            Log.i(TAG, "id="+user_id);
-            if (user_id > 0) {
-                return true;
-            }
-            return false;
+            return user_id > 0;
         }
         return false;
     }
 
+    /**
+     * setting adapter
+     */
     private void setAdapter() {
-        mAdapter = new CustomAdapter(this, cursor);
+        CustomAdapter mAdapter = new CustomAdapter(this, cursor);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
+    /**
+     * initializing cursor in different thread
+     */
     private void getTwits() {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -84,6 +90,9 @@ public class OtherUserTwits extends AppCompatActivity {
         t.start();
     }
 
+    /**
+     * initializing view components
+     */
     private void initComponents() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

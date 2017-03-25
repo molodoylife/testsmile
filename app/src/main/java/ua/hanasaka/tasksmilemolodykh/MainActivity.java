@@ -16,6 +16,9 @@ import android.view.View;
 import ua.hanasaka.tasksmilemolodykh.adapter.CustomAdapter;
 import ua.hanasaka.tasksmilemolodykh.database.DB;
 
+/**
+ * start class - main Activity of program
+ */
 public class MainActivity extends AppCompatActivity {
     private static final int STATUS_FINISHED = 2;
     private static final int STATUS_UPDATING = 3;
@@ -23,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pd;
     private Cursor cursor;
     private RecyclerView recyclerView;
-    private static int USER_ID = 1;
-    Handler h;
-    CustomAdapter mAdapter;
+    private static final int USER_ID = 1;
+    private static Handler h;
+    private CustomAdapter mAdapter;
+    private DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,18 @@ public class MainActivity extends AppCompatActivity {
         getTwits();
     }
 
+    /**
+     * setting adapter to recyclerview
+     */
     private void setAdapter() {
         mAdapter = new CustomAdapter(this, cursor);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
+    /**
+     * initializing view components
+     */
     private void initComponents() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        //managing progress dialog
         h = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 switch (msg.what) {
@@ -76,12 +87,18 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * initializing cursor
+     */
     private void initCursor() {
-        DB db = DB.getInstance(this);
+        db = DB.getInstance(this);
         db.open();
         cursor = db.getTwits(1L);
     }
 
+    /**
+     * initializing cursor in different thread
+     */
     private void getTwits() {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -93,11 +110,22 @@ public class MainActivity extends AppCompatActivity {
         t.start();
     }
 
+    /**
+     * start new twit activity
+     */
     private void startNewTwit() {
         Intent intent = new Intent(MainActivity.this, NewTwit.class);
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * getting text of new twit and adding it to db
+     * also this method updating recyclerview
+     *
+     * @param requestCode request code
+     * @param resultCode  result code
+     * @param data        intent with data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
@@ -106,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         h.sendEmptyMessage(STATUS_STARTING);
                         String textTwit = data.getStringExtra("twit");
-                        DB db = DB.getInstance(MainActivity.this);
+                        db = DB.getInstance(MainActivity.this);
                         db.open();
                         ContentValues cv = new ContentValues();
                         cv.put("body", textTwit);

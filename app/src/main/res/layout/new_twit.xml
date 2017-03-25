@@ -16,7 +16,6 @@
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/ivIcon"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
@@ -52,13 +51,12 @@
             android:layout_weight="1"
             android:minWidth="0dp"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/button"
-            android:text="twit" />
+            android:background="@drawable/button" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/etNewTwit"
-        android:hint="What's happening?"
+        android:hint="@string/hint"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@+id/ibClose"

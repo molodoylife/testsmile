@@ -13,10 +13,10 @@ import android.util.Log;
  * Created by Oleksandr Molodykh on 23.03.2017.
  */
 public class DB {
-    String TAG = "myLogs";
-    DBHelper dbHelper;
-    SQLiteDatabase sqLiteDatabase;
-    Context ctx;
+    private final String TAG = "myLogs";
+    private DBHelper dbHelper;
+    private SQLiteDatabase sqLiteDatabase;
+    private Context ctx = null;
 
     private static DB instance;
 
@@ -25,12 +25,11 @@ public class DB {
      *
      * @param ctx transferred context
      */
-    private DB(Context ctx) {
-        this.ctx = ctx;
+    private DB(Context ctx) {this.ctx = ctx;
     }
 
-    public static synchronized DB getInstance(Context ctx){
-        if(instance == null){
+    public static synchronized DB getInstance(Context ctx) {
+        if (instance == null) {
             instance = new DB(ctx);
         }
         return instance;
@@ -40,12 +39,11 @@ public class DB {
      * @param cv ContentValues data to be added
      * @return long id
      */
-    public long addTwit(ContentValues cv){
+    public long addTwit(ContentValues cv) {
         long id = sqLiteDatabase.insert("twits", null, cv);
-        Log.i(TAG, "id=="+id);
+        Log.i(TAG, "id==" + id);
         return id;
     }
-
 
     /**
      * Getting required data of all users
@@ -74,33 +72,24 @@ public class DB {
      * @param id id of user Who data is nedded
      * @return Cursor with data
      */
-    public Cursor getTwits(long id){
+    public Cursor getTwits(long id) {
         String table = "users as US inner join twits as TW on US.id = TW.user_id";
-        String columns[] = { "US.id as id", "US.name as name", "US.nick as nick",
-                "TW.body as body" };
-        Cursor cursor = sqLiteDatabase.query(table, columns, "US.id="+id, null, null, null, "TW.id DESC");
-        return cursor;
+        String columns[] = {"US.id as id", "US.name as name", "US.nick as nick",
+                "TW.body as body"};
+        return sqLiteDatabase.query(table, columns, "US.id=" + id, null, null, null, "TW.id DESC");
     }
 
-    public long ifUserIsInDB(String nick){
+    public long ifUserIsInDB(String nick) {
         long id;
-        Cursor cursor = sqLiteDatabase.query("users", new String[]{"id"}, "nick = '"+nick+"'", null, null, null, null);
-        if(cursor.getCount()==0){
+        Cursor cursor = sqLiteDatabase.query("users", new String[]{"id"}, "nick = '" + nick + "'", null, null, null, null);
+        if (cursor.getCount() == 0) {
             return -1;
-        }
-        else{
+        } else {
             cursor.moveToFirst();
             id = cursor.getLong(cursor.getColumnIndex("id"));
         }
+        cursor.close();
         return id;
-    }
-
-    /**
-     * method for closing db
-     */
-    public void close() {
-        if (dbHelper != null)
-            dbHelper.close();
     }
 
     /**
@@ -128,7 +117,6 @@ public class DB {
         @Override
         public void onCreate(SQLiteDatabase db) {
             Log.i(TAG, "--- onCreate database ---");
-            ContentValues cv = new ContentValues();
             // creating db with users
             db.execSQL("create table users ("
                     + "id integer primary key autoincrement,"
@@ -153,14 +141,14 @@ public class DB {
          *
          * @param db object of SQLiteDatabase db
          */
-        private void initStartDBData(SQLiteDatabase db){
+        private void initStartDBData(SQLiteDatabase db) {
             ContentValues cv = new ContentValues();
             cv.put("nick", "@qwerty");
             cv.put("name", "John Smith");
             db.insert("users", null, cv);
             cv.clear();
             cv.put("nick", "@sayhello");
-            cv.put("name", "Nick Harrison");;
+            cv.put("name", "Nick Harrison");
             db.insert("users", null, cv);
             cv.clear();
             cv.put("nick", "@smile");

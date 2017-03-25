@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class DBInstrumentedTest {
-    Context appContext = InstrumentationRegistry.getTargetContext();
+    private final Context appContext = InstrumentationRegistry.getTargetContext();
 
     /**
      * for checking if DB instance correctly created
