@@ -16,7 +16,7 @@ import ua.hanasaka.tasksmilemolodykh.textmanager.TextTwitManager;
 
 /**
  * custom adapter to bind data from Cursor to item in recyclerview
- *
+ * <p>
  * Created by Oleksandr Molodykh on 24.03.2017.
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {

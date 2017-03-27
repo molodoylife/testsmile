@@ -27,7 +27,7 @@ public class DBInstrumentedTest {
      */
     @Test
     public void isCreateingDB() throws Exception {
-        DB db = DB.getInstance(appContext);
+        DB db = DB.getInstance();
         assertTrue(db!=null);
     }
 
@@ -38,8 +38,8 @@ public class DBInstrumentedTest {
      */
     @Test
     public void isGettingDataFromDB() throws Exception {
-        DB db = DB.getInstance(appContext);
-        db.open();
+        DB db = DB.getInstance();
+        db.open(appContext);
         Cursor c = db.getAllUsersData();
         assertTrue(c.getCount()==3);
     }

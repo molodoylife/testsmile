@@ -9,28 +9,25 @@ import android.util.Log;
 
 /**
  * class for managing database
- *
+ * <p>
  * Created by Oleksandr Molodykh on 23.03.2017.
  */
 public class DB {
     private final String TAG = "myLogs";
     private DBHelper dbHelper;
     private SQLiteDatabase sqLiteDatabase;
-    private Context ctx = null;
 
     private static DB instance;
 
     /**
      * setting context in constructor
-     *
-     * @param ctx transferred context
      */
-    private DB(Context ctx) {this.ctx = ctx;
+    private DB() {
     }
 
-    public static synchronized DB getInstance(Context ctx) {
+    public static synchronized DB getInstance() {
         if (instance == null) {
-            instance = new DB(ctx);
+            instance = new DB();
         }
         return instance;
     }
@@ -57,7 +54,7 @@ public class DB {
     /**
      * initializing required fields for work with database
      */
-    public void open() {
+    public void open(Context ctx) {
         if (dbHelper == null) {
             dbHelper = new DBHelper(ctx);
         }
@@ -105,7 +102,6 @@ public class DB {
          * @param context transfered context
          */
         public DBHelper(Context context) {
-            // конструктор суперкласса
             super(context, "myDB", null, 1);
         }
 

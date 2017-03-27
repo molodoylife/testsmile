@@ -14,7 +14,8 @@ public class TextManageUnitTest {
 
     @Test
     public void ifNameFind() throws Exception {
-        assertEquals(2, findNamesInText("@name bla bla bla @name2"));
+        String test = "@name bla bla bla @name2";
+        assertEquals(2, findNamesInText(test));
     }
 
     /**

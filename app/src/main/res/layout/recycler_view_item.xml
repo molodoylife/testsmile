@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:layout_weight="0"
-            android:contentDescription=""
+            android:contentDescription="@string/iconsDescr3"
             app:srcCompat="@drawable/user_photo_default" />
 
         <LinearLayout
@@ -63,9 +63,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:weightSum="100"
-                android:baselineAligned="false">
+                android:weightSum="100">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -76,6 +76,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/iconsDescr4"
                         app:srcCompat="@drawable/answer_icon" />
 
                     <TextView
@@ -94,6 +95,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/iconsDescr4"
                         app:srcCompat="@drawable/retwit_icon" />
 
                     <TextView
@@ -112,6 +114,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/iconsDescr6"
                         app:srcCompat="@drawable/like_icon" />
 
                     <TextView
@@ -130,6 +133,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/iconsDescr7"
                         app:srcCompat="@drawable/envelope_icon" />
 
                     <TextView

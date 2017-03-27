@@ -4,6 +4,13 @@
     <string name="hint">What\'s happening?</string>
     <string name="wait">Please wait…</string>
     <string name="sec">1 sec</string>
+    <string name="countSymbMess">140</string>
     <string name="btnTwit">Twit</string>
+    <string name="iconsDescr1">image for closing message field</string>
     <string name="iconsDigit">25</string>
+    <string name="iconsDescr2">small user icon</string>
+    <string name="iconsDescr3">default user foto</string>
+    <string name="iconsDescr4">retwit icon</string>
+    <string name="iconsDescr6">like icon</string>
+    <string name="iconsDescr7">message icon</string>
 </resources>

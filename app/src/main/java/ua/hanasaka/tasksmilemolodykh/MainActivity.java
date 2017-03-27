@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -63,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         //managing progress dialog
-        h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
+        h = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case STATUS_FINISHED:
                         setAdapter();
@@ -83,16 +85,17 @@ public class MainActivity extends AppCompatActivity {
                         pd.dismiss();
                         break;
                 }
+                return true;
             }
-        };
+        });
     }
 
     /**
      * initializing cursor
      */
     private void initCursor() {
-        db = DB.getInstance(this);
-        db.open();
+        db = DB.getInstance();
+        db.open(this);
         cursor = db.getTwits(1L);
     }
 
@@ -134,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         h.sendEmptyMessage(STATUS_STARTING);
                         String textTwit = data.getStringExtra("twit");
-                        db = DB.getInstance(MainActivity.this);
-                        db.open();
+                        db = DB.getInstance();
+                        db.open(MainActivity.this);
                         ContentValues cv = new ContentValues();
                         cv.put("body", textTwit);
                         cv.put("user_id", USER_ID);

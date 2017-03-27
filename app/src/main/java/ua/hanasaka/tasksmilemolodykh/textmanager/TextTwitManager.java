@@ -8,7 +8,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -81,10 +80,9 @@ public class TextTwitManager {
      * @return true if user with same name is in db
      */
     private static boolean isUserInDB(Context ctx, String nick) {
-        DB db = DB.getInstance(ctx);
-        db.open();
+        DB db = DB.getInstance();
+        db.open(ctx);
         long id = db.ifUserIsInDB(nick);
-        Log.i("myLogs", "id="+id);
         return id > 0;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,8 +46,8 @@ public class OtherUserTwits extends AppCompatActivity {
      * initializing cursor
      */
     private void initCursor() {
-        DB db = DB.getInstance(this);
-        db.open();
+        DB db = DB.getInstance();
+        db.open(this);
         cursor = db.getTwits(user_id);
     }
 
@@ -59,8 +60,8 @@ public class OtherUserTwits extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("nick")) {
             String nick = intent.getStringExtra("nick");
-            DB db = DB.getInstance(this);
-            db.open();
+            DB db = DB.getInstance();
+            db.open(this);
             user_id = db.ifUserIsInDB(nick);
             return user_id > 0;
         }
@@ -97,8 +98,9 @@ public class OtherUserTwits extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
+        h = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case STATUS_FINISHED:
                         setAdapter();
@@ -113,7 +115,8 @@ public class OtherUserTwits extends AppCompatActivity {
                         pd.show();
                         break;
                 }
+                return true;
             }
-        };
+        });
     }
 }

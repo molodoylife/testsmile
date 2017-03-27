@@ -62,7 +62,7 @@ public class NewTwit extends AppCompatActivity implements View.OnClickListener {
         ImageButton ibClose = (ImageButton) findViewById(R.id.ibClose);
         ibClose.setOnClickListener(this);
         tvCountSymbols = (TextView) findViewById(R.id.countSymbols);
-        tvCountSymbols.setText("140");
+        tvCountSymbols.setText(R.string.countSymbMess);
         etNewTwit = (EditText) findViewById(R.id.etNewTwit);
         etNewTwit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,8 +77,8 @@ public class NewTwit extends AppCompatActivity implements View.OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int filled = etNewTwit.getText().toString().length();
-                tvCountSymbols.setText(140 - filled + "");
+                int left = 140 - etNewTwit.getText().toString().length();
+                tvCountSymbols.setText(String.valueOf(left));
             }
         });
     }
