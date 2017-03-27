@@ -50,6 +50,7 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:minWidth="0dp"
+            android:text="@string/btnTwit"
             android:textColor="@color/colorWhite"
             android:background="@drawable/button" />
     </LinearLayout>

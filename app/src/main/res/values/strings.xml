@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">TaskSmileMolodykh</string>
     <string name="userIsAbsent">There is no such user:(</string>
-    <string name="hint">What's happening?</string>
+    <string name="hint">What\'s happening?</string>
     <string name="wait">Please wait…</string>
     <string name="sec">1 sec</string>
+    <string name="btnTwit">Twit</string>
     <string name="iconsDigit">25</string>
 </resources>
